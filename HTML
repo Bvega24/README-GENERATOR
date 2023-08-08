@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>README Generator</title>
+</head>
+<body>
+  <h1>README Generator</h1>
+  <form id="readmeForm">
+    <label for="projectName">Project Name:</label>
+    <input type="text" id="projectName" name="projectName" required>
+    <br>
+    <label for="projectDescription">Project Description:</label>
+    <textarea id="projectDescription" name="projectDescription" required></textarea>
+    <br>
+    <label for="authorName">Your Name:</label>
+    <input type="text" id="authorName" name="authorName" required>
+    <br>
+    <label for="authorEmail">Your Email Address:</label>
+    <input type="email" id="authorEmail" name="authorEmail" required>
+    <br>
+    <label for="githubUsername">Your GitHub Username:</label>
+    <input type="text" id="githubUsername" name="githubUsername" required>
+    <br>
+    <input type="submit" value="Generate README">
+  </form>
+
+  <script>
+    document.getElementById('readmeForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      fetch('/generateReadme', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.text())
+      .then(message => {
+        alert(message);
+      })
+      .catch(error => {
+        alert('Error generating README: ' + error.message);
+      });
+    });
+  </script>
+</body>
+</html>
