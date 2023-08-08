@@ -1,0 +1,41 @@
+// Generator - add readme
+// Need to make functions to const run
+// create questions to ask user in order to know what to generate
+// Write answers to the questions to generate the README
+
+const readline = require('readline');
+const fs = require('fs');
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+function generateReadme() {
+  console.log('README Generator');
+  console.log('=================\n');
+
+  rl.question('Enter the project name: ', (projectName) => {
+    rl.question('Enter a brief description of the project: ', (projectDescription) => {
+      rl.question('Enter your name: ', (authorName) => {
+        rl.question('Enter your email address: ', (authorEmail) => {
+          rl.question('Enter your GitHub username: ', (githubUsername) => {
+            const readmeContent = `# ${projectName}\n\n${projectDescription}\n\n## Author\n- ${authorName}\n- GitHub: [${githubUsername}](https://github.com/${githubUsername})\n- Email: ${authorEmail}\n\n## License\nThis project is licensed under the [MIT License](LICENSE).`;
+
+            fs.writeFile('README.md', readmeContent, (err) => {
+              if (err) {
+                console.error('Error writing to README.md:', err);
+              } else {
+                console.log('\nREADME.md file successfully generated!');
+              }
+
+              rl.close();
+            });
+          });
+        });
+      });
+    });
+  });
+}
+
+generateReadme();
